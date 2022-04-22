@@ -1,0 +1,81 @@
+#!/bin/sh
+# Aghpbu
+#find ~ Anime-Girls-Holding-Programming-Books -type d -maxdepth 2
+cd ~
+
+#Install
+install(){
+        echo "Installing Anime-Girls-Holding-Programming-Books..."
+        cd ~/Pictures
+        git clone https://github.com/cat-milk/Anime-Girls-Holding-Programming-Books.git
+        echo "Installation complete the diretory is install in ~/Pictures"
+        
+}
+
+#Update
+update(){
+echo -e "Analyzing Home folder for Anime-Girls-Holding-Programming-Books..."
+FILES=`find $(pwd) -maxdepth 1 -type d -not -path '*/\.*' | sort `>& /dev/null
+for f in $FILES
+do
+    echo -e "Analyzing $f...">& /dev/null
+
+    
+    #find Anime-Girls-Holding-Programming-Books -maxdepth 0 
+    DIRECTORY=$f/Anime-Girls-Holding-Programming-Books
+         if [ -d "$DIRECTORY" ]; then
+         echo "Anime-Girls-Holding-Programming-Books is present. Do you want to update it ? (y/n):  "
+        read
+         if [[ $REPLY == "y" || $REPLY ==  "Y" ]]; then
+                 cd $DIRECTORY
+                 #pwd 
+                 echo "Updating the waifus..." 
+                  git pull  https://github.com/cat-milk/Anime-Girls-Holding-Programming-Books.git
+                 echo "Update complete"  
+                 break
+         fi
+         if [[  $REPLY == "n" || $REPLY == "N" ]];then
+                exit
+         fi
+        if [[ $REPLY != "y" || $REPLY != "Y" || $REPLY != "n" || $REPLY != "N" ]];then
+                echo "Invalid input. Please enter y or n"
+                read
+                if [[ $REPLY == "y" || $REPLY ==  "Y" ]]; then
+                 cd $DIRECTORY
+                 pwd 
+                 echo "Updating the waifus..." 
+                 git pull  https://github.com/cat-milk/Anime-Girls-Holding-Programming-Books.git
+                 echo "Update complete"  
+                 break
+                fi
+                   if [[  $REPLY == "n" || $REPLY == "N" ]];then
+                exit
+         fi
+
+         fi 
+         fi
+done
+}
+Help()
+{
+   # Display Help
+   echo "Download or Update the github repository of Anime-Girls-Holding-Programming-Books.."
+   echo
+   echo "Options:"
+   echo "     Print the GPL license notification."
+   echo "h     Print this Help."
+   echo "v     Verbose mode."
+   echo "V     Print software version and exit."
+   echo
+}
+
+
+if [[ $1 == "install"  ]]; then 
+        $1 = install  
+fi
+if [[ $1 == "update"  ]]; then 
+        $1 = update  
+fi
+if [[ $1 == "h" || $1 == "Help"  ]]; then 
+        $1 = Help  
+fi
