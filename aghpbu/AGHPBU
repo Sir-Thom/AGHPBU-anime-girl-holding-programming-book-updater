@@ -4,12 +4,11 @@
 cd ~
 
 #Install
-install(){
+Install(){
         echo "Installing Anime-Girls-Holding-Programming-Books..."
         cd ~/Pictures
         git clone https://github.com/cat-milk/Anime-Girls-Holding-Programming-Books.git
-        echo "Installation complete the diretory is install in ~/Pictures"
-        
+        echo "Installation complete the diretory is install in ~/Pictures"   
 }
 
 #Update
@@ -56,26 +55,44 @@ do
          fi
 done
 }
-Help()
-{
-   # Display Help
-   echo "Download or Update the github repository of Anime-Girls-Holding-Programming-Books.."
-   echo
-   echo "Options:"
-   echo "     Print the GPL license notification."
-   echo "h     Print this Help."
-   echo "v     Verbose mode."
-   echo "V     Print software version and exit."
-   echo
+Help(){
+        while IFS= read -r line; do
+	    printf "%s\n" "$line"
+	done <<-EOF
+	Usage:
+	    ${0##*/} -I
+	    ${0##*/} -U
+	    ${0##*/} -h
+	
+	Options:
+	    -h show help
+	    -U Update
+	    -I Install
+	EOF
+
 }
+while getopts 'vq:IUVa:' OPT; do
+        case $OPT in
+                U)
+                        update
+                        exit 0   
+                         ;;
+                I)
+                        Install
+                        exit 0
+                         ;;
+                 *)
+                        Help
+                        exit 1
+                        ;;
+	esac
+done
+shift $((OPTIND - 1))
 
+#if [[ $1 == "install"  ]]; then 
+ #       $1 = install  
+#fi
+#if [[ $1 == "update"  ]]; then 
+ #       $1 = update  
+#fi
 
-if [[ $1 == "install"  ]]; then 
-        $1 = install  
-fi
-if [[ $1 == "update"  ]]; then 
-        $1 = update  
-fi
-if [[ $1 == "h" || $1 == "Help"  ]]; then 
-        $1 = Help  
-fi
