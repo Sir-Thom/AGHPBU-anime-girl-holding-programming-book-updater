@@ -2,13 +2,21 @@
 # Aghpbu
 #find ~ Anime-Girls-Holding-Programming-Books -type d -maxdepth 2
 cd ~
+ErrorMsgBase="Error: "
 
 #Install
 Install(){
         echo "Installing Anime-Girls-Holding-Programming-Books..."
         cd ~/Pictures
-        git clone https://github.com/cat-milk/Anime-Girls-Holding-Programming-Books.git
-        echo "Installation complete the diretory is install in ~/Pictures"   
+
+        Dir=Anime-Girls-Holding-Programming-Books
+        if [ -d $Dir ]; then
+                echo  $ErrorMsgBase"The file already exist" | sed $'s/Error: /\033[0;31m&\e[0m/'
+               # echo 'Hello World!' | sed $'s/World/\e[1m&\e[0m/'
+        else
+                git clone https://github.com/cat-milk/Anime-Girls-Holding-Programming-Books.git
+                echo "Installation complete the diretory is install in ~/Pictures"
+        fi
 }
 
 #Update
@@ -60,8 +68,8 @@ Help(){
 	    printf "%s\n" "$line"
 	done <<-EOF
 	Usage:
-	    ${0##*/} -I
-	    ${0##*/} -U
+	    ${0##*/} -i
+	    ${0##*/} -u
 	    ${0##*/} -h
 	
 	Options:
@@ -71,13 +79,13 @@ Help(){
 	EOF
 
 }
-while getopts 'vq:IUVa:' OPT; do
+while getopts 'vq:iuhVa:' OPT; do
         case $OPT in
-                U)
+                u)
                         update
                         exit 0   
                          ;;
-                I)
+                i)
                         Install
                         exit 0
                          ;;
